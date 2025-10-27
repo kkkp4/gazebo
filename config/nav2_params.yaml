@@ -1,0 +1,50 @@
+
+planner_server:
+  ros__parameters:
+    use_sim_time: true
+    planner_plugins: ["GridBased"]
+    GridBased:
+      plugin: "nav2_theta_star_planner/ThetaStarPlanner"
+      expected_planner_frequency: 1.0
+
+controller_server:
+  ros__parameters:
+    use_sim_time: true
+    controller_plugins: ["FollowPath"]
+    FollowPath:
+      plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"  # Explicit namespace
+      desired_linear_vel: 0.7
+      max_linear_accel: 4.0
+      min_approach_linear_velocity: 0.05
+      max_angular_vel: 7.0
+      lookahead_dist: 0.6
+      min_turning_radius: 1.5
+      transform_tolerance: 0.5
+    cmd_vel_topic: /cmd_vel  #Matches diff_drive_controller
+
+global_costmap:
+  ros__parameters:
+    use_sim_time: true
+    update_frequency: 1.0
+    publish_frequency: 1.0
+    global_frame: "map"
+    robot_base_frame: "base_link"
+    resolution: 0.05
+    plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+
+local_costmap:
+  ros__parameters:
+    use_sim_time: true
+    update_frequency: 5.0
+    publish_frequency: 2.0
+    global_frame: "odom"
+    robot_base_frame: "base_link"
+    resolution: 0.05
+    rolling_window: true
+    width: 3.0
+    height: 3.0
+    plugins: ["obstacle_layer", "inflation_layer"]
+
+bt_navigator:
+  ros__parameters:
+    use_sim_time: true
