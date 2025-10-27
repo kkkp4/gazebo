@@ -1,0 +1,279 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <material name="white">
+        <color rgba="1 1 1 1" />
+    </material>
+
+    <material name="orange">
+        <color rgba="1 0.3 0.1 1"/>
+    </material>
+
+    <material name="blue">
+        <color rgba="0.2 0.2 1 1"/>
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <material name="red">
+        <color rgba="1 0 0 1"/>
+    </material>
+
+    <material name="green">
+        <color rgba="0 1 0 1"/>
+    </material>
+
+    <material name="yellow">
+        <color rgba="1 1 0 1"/>
+    </material>
+
+    <material name="purple">
+        <color rgba="0.5 0 0.5 1"/>
+    </material>
+
+    <material name="cyan">
+        <color rgba="0 1 1 1"/>
+    </material>
+
+    <material name="gray">
+        <color rgba="0.5 0.5 0.5 1"/>
+    </material>
+
+
+    <!-- BASE LINK -->
+
+    <link name="base_link"/>
+    
+    <joint name="chassis_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis"/>
+        <origin xyz="0 0 0.75" rpy="0 0 0"/>
+    </joint>
+
+    <link name="chassis">
+        <visual>
+            <origin xyz="0 0 0.075" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.452 0.452 0.15"/>
+            </geometry>
+            <material name="cyan"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.075" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.452 0.452 0.15"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="0.1" x="0.46" y="0.46" z="0.15">
+            <origin xyz="0 0 0.075" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+    <gazebo reference="chassis">
+        <material>Gazebo/cyan</material>
+    </gazebo>
+    
+    <!-- BASE_FOOTPRINT LINK -->
+    <joint name="base_footprint_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="base_footprint"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="base_footprint">
+    </link>
+    
+    <!-- LEFT FRONT WHEEL -->
+    <joint name="left_wheel_joint" type="continuous">
+        <parent link="chassis"/>
+        <child link="left_wheel"/>
+        <origin xyz="0.226 0.226 0" rpy="-${pi/2} 0 0"/>
+        <axis xyz="0 0 1"/>
+        <dynamics damping="0.5" friction="0.8"/> 
+    </joint>
+
+    <link name="left_wheel">
+        <visual>
+            <geometry>
+                <cylinder length="0.03" radius="0.125" />
+            </geometry>
+            <material name="purple"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.03" radius="0.125" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="0.03" radius="0.125">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="left_wheel">
+        <material>Gazebo/purple</material>
+        <mu1>0.8</mu1>
+        <mu2>0.6</mu2>
+        <plugin name="wheel_surface" filename="libgazebo_ros_surface_plugin.so">
+            <rolling_resistance value="0.02"/>
+            <friction value="0.9"/>
+        </plugin>
+    </gazebo>
+
+    <!-- LEFT REAR WHEEL -->
+    <joint name="left_wheel1_joint" type="continuous">
+        <parent link="chassis"/>
+        <child link="left_wheel1"/>
+        <origin xyz="0.226 -0.226 0" rpy="-${pi/2} 0 0"/>
+        <axis xyz="0 0 1"/>
+        <dynamics damping="0.3" friction="0.8"/> 
+    </joint>
+
+    <link name="left_wheel1">
+        <visual>
+            <geometry>2
+                <cylinder length="0.03" radius="0.125" />
+            </geometry>
+            <material name="purple"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.03" radius="0.125" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="0.03" radius="0.125">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="left_wheel1">
+        <material>Gazebo/purple</material>
+        <mu1>0.8</mu1>
+        <mu2>0.6</mu2>
+        <plugin name="wheel_surface" filename="libgazebo_ros_surface_plugin.so">
+            <rolling_resistance value="0.02"/>
+            <friction value="0.9"/>
+        </plugin>
+    </gazebo>
+
+    <!-- RIGHT FRONT WHEEL -->
+    <joint name="right_wheel_joint" type="continuous">
+        <parent link="chassis"/>
+        <child link="right_wheel"/>
+        <origin xyz="-0.226 0.226 0" rpy="${pi/2} 0 0"/>
+        <axis xyz="0 0 -1"/>
+        <dynamics damping="0.5" friction="0.8"/> 
+    </joint>
+
+    <link name="right_wheel">
+        <visual>
+            <geometry>
+                <cylinder length="0.03" radius="0.125" />
+            </geometry>
+            <material name="purple"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.03" radius="0.125" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="0.03" radius="0.125">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="right_wheel">
+        <material>Gazebo/red</material>
+        <mu1>0.8</mu1>
+        <mu2>0.6</mu2>
+        <plugin name="wheel_surface" filename="libgazebo_ros_surface_plugin.so">
+            <rolling_resistance value="0.02"/>
+            <friction value="0.9"/>
+        </plugin>
+    </gazebo>
+
+    <!-- RIGHT REAR WHEEL -->
+    <joint name="right_wheel1_joint" type="continuous">
+        <parent link="chassis"/>
+        <child link="right_wheel1"/>
+        <origin xyz="-0.226 -0.226 0" rpy="${pi/2} 0 0"/>
+        <axis xyz="0 0 -1"/>
+        <dynamics damping="0.5" friction="0.8"/> 
+    </joint>
+
+    <link name="right_wheel1">
+        <visual>
+            <geometry>
+                <cylinder length="0.03" radius="0.125" />
+            </geometry>
+            <material name="purple"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.03" radius="0.125" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="0.03" radius="0.125">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="right_wheel1">
+        <material>Gazebo/purple</material>
+        <mu1>0.8</mu1>
+        <mu2>0.6</mu2>
+        <plugin name="wheel_surface" filename="libgazebo_ros_surface_plugin.so">
+            <rolling_resistance value="0.02"/>
+            <friction value="0.9"/>
+        </plugin>
+    </gazebo>
+
+    <!-- GRIPPER -->
+
+    <!--<joint name="bar_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="bar"/>
+        <origin xyz="0.25 0 0.1" rpy="0 0 0"/>
+    </joint>
+
+    <link name="bar">
+        <visual>
+            <geometry>
+                <box size="0.05 0.35 0.05"/>
+            </geometry>
+            <material name="gray"/>
+        </visual>
+    </link>
+
+    <joint name="bar1_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="bar1"/>
+        <origin xyz="0.25 0.15 0.1" rpy="0 0 0"/>
+    </joint>
+
+    <link name="bar1">
+        <visual>
+            <geometry>
+                <box size="0.2 0.05 0.05"/>
+            </geometry>
+            <material name="yellow"/>
+        </visual>
+    </link>
+
+    <joint name="bar2_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="bar2"/>
+        <origin xyz="0.25 -0.15 0.1" rpy="0 0 0"/>
+    </joint>
+
+    <link name="bar2">
+        <visual>
+            <geometry>
+                <box size="0.2 0.05 0.05"/>
+            </geometry>
+            <material name="yellow"/>
+        </visual>
+    </link>-->
+
+
+</robot>
